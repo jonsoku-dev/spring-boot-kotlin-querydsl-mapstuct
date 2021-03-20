@@ -69,6 +69,11 @@ dependencies {
     // Database
     runtimeOnly("mysql:mysql-connector-java")
 
+    // Mapstruct
+    implementation("org.mapstruct:mapstruct:1.4.2.Final")
+    kapt("org.mapstruct:mapstruct-processor:1.4.2.Final")
+    kaptTest("org.mapstruct:mapstruct-processor:1.4.2.Final")
+
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

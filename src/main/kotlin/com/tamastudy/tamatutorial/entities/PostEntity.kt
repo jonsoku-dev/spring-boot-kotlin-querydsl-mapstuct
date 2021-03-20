@@ -1,6 +1,5 @@
 package com.tamastudy.tamatutorial.entities
 
-import java.time.LocalDateTime
 import javax.persistence.*
 
 
@@ -11,7 +10,5 @@ data class PostEntity(
     @Id
     var id: Long? = null,
     var title: String? = null,
-    var content: String? = null,
-    var createdAt: LocalDateTime? = null,
-    var updatedAt: LocalDateTime? = null
-)
+    var content: String? = null
+) : CommonDateEntity()

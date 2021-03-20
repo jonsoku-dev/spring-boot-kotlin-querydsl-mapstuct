@@ -4,6 +4,7 @@ import com.tamastudy.tamatutorial.dtos.post.CreatePostDto
 import com.tamastudy.tamatutorial.dtos.post.PostDto
 import com.tamastudy.tamatutorial.dtos.post.UpdatePostDto
 import com.tamastudy.tamatutorial.entities.PostEntity
+import com.tamastudy.tamatutorial.mappers.PostMapper
 import com.tamastudy.tamatutorial.repositories.post.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -18,29 +19,11 @@ class PostServiceImpl(
         val LOG: Logger = Logger.getLogger(PostServiceImpl::class.java.name)
     }
 
-    override fun getPosts(): List<PostDto> {
-        val postEntities = postRepository.findAll()
-        val postDtos = postEntities.map { postEntity ->
-            PostDto().apply {
-                this.id = postEntity.id
-                this.title = postEntity.title
-                this.content = postEntity.content
-                this.createdAt = postEntity.createdAt
-                this.updatedAt = postEntity.updatedAt
-            }
-        }
-        return postDtos
-    }
+    override fun getPosts() = PostMapper.INSTANCE.toDtos(postRepository.findAll())
 
     override fun getPost(postId: Long): PostDto {
         return postRepository.findByIdOrNull(postId)?.let { postEntity ->
-            PostDto().apply {
-                this.id = postEntity.id
-                this.title = postEntity.title
-                this.content = postEntity.content
-                this.createdAt = postEntity.createdAt
-                this.updatedAt = postEntity.updatedAt
-            }
+            PostMapper.INSTANCE.toDto(postEntity)
         } ?: kotlin.run {
             LOG.warning("$postId 에 해당하는 포스트를 찾을 수 없습니다.")
             throw RuntimeException()
@@ -49,10 +32,7 @@ class PostServiceImpl(
 
     override fun createPost(createPostDto: CreatePostDto) {
         // 변환 작업
-        val newPost = PostEntity().apply {
-            this.title = createPostDto.title
-            this.content = createPostDto.content
-        }.also {
+        val newPost = PostMapper.INSTANCE.toEntityCreatePostDto(createPostDto).also {
             LOG.info("newPost: $it")
         }
         postRepository.save(newPost)
