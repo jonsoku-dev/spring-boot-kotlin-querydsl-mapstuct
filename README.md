@@ -1,6 +1,6 @@
 1. [x] Mapstruct 
-2. [] querydsl custom repository
-3. [] error handling
+2. [x] querydsl custom repository
+3. [x] error handling
 4. [x] MappedSuperclass
    
 5. user 1:N mapping // ???

@@ -19,7 +19,7 @@ class PostServiceImpl(
         val LOG: Logger = Logger.getLogger(PostServiceImpl::class.java.name)
     }
 
-    override fun getPosts() = PostMapper.INSTANCE.toDtos(postRepository.findAll())
+    override fun getPosts() = PostMapper.INSTANCE.toDtos(postRepository.getPosts_querydsl())
 
     override fun getPost(postId: Long): PostDto {
         return postRepository.findByIdOrNull(postId)?.let { postEntity ->
